@@ -1,0 +1,499 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sorry, My Love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,700&family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: one phone-width column, a reel-style sequence of three stages (envelope, card, thank-you) over drifting hearts. */
+:root {
+  --bg: #fff0f3;
+  --bg2: #ffd3df;
+  --paper: #fffaf8;
+  --ink: #4a1230;
+  --muted: #8b4a66;
+  --rose: #e8456f;
+  --rose-deep: #b8184a;
+  --on-rose: #ffffff;
+  --blush: #ffb3c6;
+  --gold: #e9b44c;
+  --line: rgba(74, 18, 48, .16);
+  --shadow: rgba(184, 24, 74, .28);
+  --env-back: #f6a3ba;
+  --env-flap: #f48aa6;
+  --env-front: #fbb8ca;
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1d0914; --bg2: #3a1030; --paper: #2d1022; --ink: #ffe3ea; --muted: #e8a6bb;
+    --rose: #ff6b8f; --rose-deep: #ff9bb3; --on-rose: #2a0716; --blush: #6e2146; --gold: #f2c46a;
+    --line: rgba(255, 227, 234, .2); --shadow: rgba(0, 0, 0, .55);
+    --env-back: #8a2f56; --env-flap: #a23a66; --env-front: #b04772;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1d0914; --bg2: #3a1030; --paper: #2d1022; --ink: #ffe3ea; --muted: #e8a6bb;
+  --rose: #ff6b8f; --rose-deep: #ff9bb3; --on-rose: #2a0716; --blush: #6e2146; --gold: #f2c46a;
+  --line: rgba(255, 227, 234, .2); --shadow: rgba(0, 0, 0, .55);
+  --env-back: #8a2f56; --env-flap: #a23a66; --env-front: #b04772;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: linear-gradient(170deg, var(--bg) 0%, var(--bg2) 100%) fixed, var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-inline: 16px;
+  padding-block: 28px 40px;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+main { position: relative; z-index: 2; max-width: 440px; margin-inline: auto; display: flex; flex-direction: column; gap: 24px; }
+.stage { display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 0; }
+.hand { font-family: var(--hand); font-weight: 700; color: var(--rose-deep); }
+svg.h { width: 1em; height: 1em; fill: currentColor; flex: none; }
+
+/* floating hearts */
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg span { position: absolute; bottom: -10vh; color: var(--blush); opacity: 0; animation: rise linear infinite; }
+@keyframes rise {
+  0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+  12% { opacity: .75; }
+  100% { transform: translateY(-115vh) rotate(14deg); opacity: 0; }
+}
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
+
+/* envelope */
+.tag { font-size: 1.7rem; text-align: center; line-height: 1.1; }
+.env { position: relative; width: min(100%, 330px); aspect-ratio: 3 / 2; margin-top: 56px; }
+.env .back { position: absolute; inset: 0; background: var(--env-back); border-radius: 8px 8px 16px 16px; box-shadow: 0 18px 34px -14px var(--shadow); }
+.env .letter { position: absolute; left: 8%; right: 8%; top: 10%; bottom: 10%; background: var(--paper); border-radius: 6px; z-index: 1; transition: transform .8s cubic-bezier(.3, .8, .3, 1) .55s; }
+.env .pocket { position: absolute; inset: 0; background: var(--env-front); clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%); border-radius: 8px 8px 16px 16px; z-index: 2; }
+.env .flap { position: absolute; left: 0; right: 0; top: 0; height: 56%; background: var(--env-flap); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top; transition: transform .7s ease; z-index: 3; }
+.env .to { position: absolute; left: 0; right: 0; bottom: 11%; text-align: center; font-size: 1.55rem; line-height: 1; z-index: 3; padding-inline: 12px; overflow-wrap: anywhere; color: var(--rose-deep); }
+.env .seal { position: absolute; left: 50%; top: 56%; width: 64px; height: 64px; transform: translate(-50%, -50%); z-index: 4; border: 0; border-radius: 50%; background: var(--rose); color: var(--on-rose); font-size: 2rem; display: grid; place-items: center; cursor: pointer; box-shadow: 0 8px 18px -6px var(--shadow); transition: opacity .3s; animation: beat 1.4s ease-in-out infinite; }
+@keyframes beat { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 40% { transform: translate(-50%, -50%) scale(1.14); } 60% { transform: translate(-50%, -50%) scale(1.04); } }
+.env.open .flap { transform: rotateX(180deg); z-index: 1; }
+.env.open .letter { transform: translateY(-62%); }
+.env.open .seal { opacity: 0; pointer-events: none; animation: none; }
+.hint { font-size: 1.5rem; color: var(--muted); font-family: var(--hand); text-align: center; }
+
+/* card */
+.card { position: relative; width: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 38px 24px 28px; box-shadow: 0 24px 44px -22px var(--shadow); display: flex; flex-direction: column; gap: 18px; text-align: center; animation: lift .7s cubic-bezier(.2, .8, .2, 1); }
+@keyframes lift { from { opacity: 0; translate: 0 36px; } to { opacity: 1; translate: 0 0; } }
+.card::before, .card::after { content: ""; position: absolute; top: 0; bottom: 0; width: 14px; background: var(--rose); opacity: .9; }
+.card::before { left: 22px; border-radius: 0 0 8px 8px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 90%, 0 100%); height: 74px; bottom: auto; }
+.card::after { display: none; }
+.card .for { font-size: 1.6rem; line-height: 1.1; padding-inline: 28px; overflow-wrap: anywhere; }
+.dist { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 1.4rem; line-height: 1; color: var(--muted); margin-top: -6px; }
+.dist .path { position: relative; flex: 1; max-width: 170px; height: 0; border-top: 2px dotted var(--rose); }
+.dist .path svg { position: absolute; top: -.6em; left: 0; font-size: 1.2rem; color: var(--rose); animation: travel 3.2s ease-in-out infinite; }
+@keyframes travel { 0%, 100% { left: 0; } 50% { left: calc(100% - 1.2rem); } }
+.card h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 700; font-size: clamp(2.9rem, 15vw, 4rem); line-height: .98; color: var(--rose-deep); text-wrap: balance; }
+.card h1 svg.h { color: var(--rose); font-size: .6em; vertical-align: .05em; animation: beat2 1.3s ease-in-out infinite; }
+@keyframes beat2 { 0%, 100% { scale: 1; } 40% { scale: 1.22; } }
+.lines { display: flex; flex-direction: column; gap: 10px; min-height: 7.5em; font-size: 1.08rem; text-wrap: pretty; }
+.lines p { margin: 0; }
+.lines p.cur::after { content: "|"; color: var(--rose); margin-left: 1px; animation: blink 0.8s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.ask { display: flex; flex-direction: column; gap: 14px; align-items: center; animation: lift .6s ease; }
+.ask h2 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 1.7rem; line-height: 1.15; text-wrap: balance; }
+.btns { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; min-height: 64px; width: 100%; }
+.btn { font: inherit; font-weight: 800; border: 0; border-radius: 999px; cursor: pointer; max-width: 100%; }
+.yes { --g: 0; background: var(--rose); color: var(--on-rose); font-size: calc(1.05rem + var(--g) * .17rem); padding: calc(.8rem + var(--g) * .1rem) calc(1.4rem + var(--g) * .3rem); box-shadow: 0 10px 22px -10px var(--shadow); transition: font-size .35s cubic-bezier(.3, 1.6, .5, 1), padding .35s cubic-bezier(.3, 1.6, .5, 1); overflow-wrap: anywhere; }
+.yes.full { width: 100%; }
+.yes:hover { background: var(--rose-deep); color: var(--paper); }
+.no { background: transparent; color: var(--muted); border: 1.5px solid var(--line); font-size: .95rem; padding: .6em 1.1em; z-index: 30; transition: left .28s cubic-bezier(.3, 1.4, .5, 1), top .28s cubic-bezier(.3, 1.4, .5, 1); }
+.no.fly { position: fixed; background: var(--paper); }
+.yes.pulse { animation: wiggle 1.6s ease-in-out infinite; }
+@keyframes wiggle { 0%, 45%, 100% { rotate: 0deg; } 10% { rotate: -2.5deg; } 20% { rotate: 2.5deg; } 30% { rotate: -2deg; } 40% { rotate: 1.5deg; } }
+.count { font-weight: 800; font-size: .95rem; color: var(--rose-deep); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; font-variant-numeric: tabular-nums; }
+.extras { width: 100%; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.extra { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; animation: lift .5s cubic-bezier(.2, .8, .2, 1); }
+.extra b { display: block; font-family: var(--display); font-style: italic; font-size: 1.05rem; color: var(--rose-deep); line-height: 1.25; }
+.extra p { margin: 2px 0 0; font-size: .98rem; white-space: pre-line; overflow-wrap: anywhere; }
+.extra .bar { margin-top: 8px; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.extra .bar i { display: block; height: 100%; width: 0; background: var(--rose); border-radius: 999px; transition: width 1.6s cubic-bezier(.3, .8, .3, 1); }
+.fab { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); translate: -50% 0; z-index: 35; background: var(--rose); color: var(--on-rose); font-size: 1.05rem; padding: .85rem 1.6rem; box-shadow: 0 12px 26px -8px var(--shadow); white-space: nowrap; max-width: calc(100% - 32px); }
+.plea { min-height: 2.2rem; font-size: 1.45rem; line-height: 1.1; color: var(--muted); }
+.sig { font-size: 1.7rem; line-height: 1; padding-top: 4px; }
+.btn:focus-visible, .seal:focus-visible, .coupon:focus-visible, .link:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* thank you */
+.thanks { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; animation: lift .7s cubic-bezier(.2, .8, .2, 1); }
+.thanks h2 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 700; font-size: clamp(2.3rem, 11vw, 3.1rem); line-height: 1; color: var(--rose-deep); text-wrap: balance; }
+.thanks .sub { margin: 0; font-size: 1.05rem; text-wrap: pretty; }
+.thanks .tease { font-size: 1.5rem; color: var(--muted); line-height: 1.1; }
+.coupons { width: 100%; display: flex; flex-direction: column; gap: 12px; margin: 6px 0 0; padding: 0; list-style: none; }
+.coupon { width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; text-align: left; font: inherit; color: var(--ink); background: var(--paper); border: 1.5px dashed var(--rose); border-radius: 14px; padding: 14px 16px; cursor: pointer; position: relative; transition: opacity .3s, background .3s; }
+.coupon::before, .coupon::after { content: ""; position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 1.5px dashed var(--rose); translate: 0 -50%; }
+.coupon::before { left: -9px; clip-path: inset(0 0 0 50%); }
+.coupon::after { right: -9px; clip-path: inset(0 50% 0 0); }
+.coupon b { display: block; font-family: var(--display); font-style: italic; font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+.coupon small { display: block; color: var(--muted); font-size: .85rem; }
+.coupon .stamp { font-family: var(--hand); font-weight: 700; font-size: 1.25rem; color: var(--rose-deep); border: 2px solid var(--rose); border-radius: 8px; padding: 2px 10px; rotate: -6deg; white-space: nowrap; }
+.coupon[aria-pressed="true"] { opacity: .55; background: transparent; }
+.coupon[aria-pressed="true"] b { text-decoration: line-through; text-decoration-color: var(--rose); }
+.coupon[aria-pressed="true"] .stamp { background: var(--rose); color: var(--on-rose); }
+.link { background: none; border: 0; font: inherit; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 6px; }
+
+/* edit drawer */
+.edit { width: 100%; font-size: .9rem; color: var(--muted); }
+.edit summary { cursor: pointer; text-align: center; list-style: none; padding: 6px; }
+.edit summary::-webkit-details-marker { display: none; }
+.edit[open] summary { margin-bottom: 8px; }
+.edit form { display: flex; flex-direction: column; gap: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.edit label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; text-align: left; }
+.edit input, .edit textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; min-width: 0; }
+.edit textarea { resize: vertical; min-height: 84px; }
+.edit p { margin: 0; text-align: left; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bg { display: none; }
+  .seal, .card h1 svg.h { animation: none; }
+  .dist .path svg { animation: none; left: calc(50% - .6rem); }
+  .card, .ask, .thanks, .extra, .yes.pulse { animation: none; }
+  .extra .bar i { transition: none; }
+  .env .flap, .env .letter, .no, .yes { transition: none; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+</svg>
+
+<div class="bg" id="bg" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<button class="btn fab" id="fab" type="button" hidden>Okay, yes, I forgive you</button>
+
+<main>
+  <!-- Stage 1: envelope -->
+  <section class="stage" id="s1">
+    <div class="tag hand" id="tagline">Sent to you across the miles</div>
+    <div class="env" id="env">
+      <div class="back"></div>
+      <div class="letter"></div>
+      <div class="pocket"></div>
+      <div class="flap"></div>
+      <div class="to hand" id="envTo">For Nims</div>
+      <button class="seal" id="seal" type="button" aria-label="Open the envelope"><svg class="h" aria-hidden="true"><use href="#heart"/></svg></button>
+    </div>
+    <div class="hint">tap the heart to open</div>
+  </section>
+
+  <!-- Stage 2: the card -->
+  <section class="stage" id="s2" hidden>
+    <article class="card" id="card">
+      <div class="for hand" id="cardFor">Dear Nims,</div>
+      <div class="dist hand" aria-hidden="true"><span>me</span><i class="path"><svg class="h"><use href="#heart"/></svg></i><span>you</span></div>
+      <h1>I'm sorry <svg class="h" aria-hidden="true"><use href="#heart"/></svg></h1>
+      <div class="lines" id="lines" aria-live="polite"></div>
+      <div class="ask" id="ask" hidden>
+        <h2>Will you forgive me?</h2>
+        <div class="btns" id="btns">
+          <button class="btn yes" id="yes" type="button">Yes, I forgive you</button>
+          <button class="btn no" id="no" type="button">No</button>
+        </div>
+        <div class="plea hand" id="plea" aria-live="polite"></div>
+        <div class="count" id="count" hidden></div>
+        <div class="extras" id="extras" aria-label="More sorry from me"></div>
+      </div>
+      <div class="sig hand" id="sig">Always yours</div>
+    </article>
+  </section>
+
+  <!-- Stage 3: thank you -->
+  <section class="stage" id="s3" hidden>
+    <div class="thanks">
+      <h2 id="thx">You forgave me!</h2>
+      <p class="sub" id="thxSub">Thank you, Nims. Loads and loads of puchies for you.</p>
+      <div class="tease hand" id="tease"></div>
+    </div>
+    <ul class="coupons" id="coupons" aria-label="Sorry coupons"></ul>
+    <button class="link" id="replay" type="button">Play it again</button>
+  </section>
+
+  <details class="edit" id="edit">
+    <summary>Make it yours</summary>
+    <form id="form" autocomplete="off">
+      <label for="inTo">Who is it for?<input id="inTo" type="text" maxlength="30" placeholder="Nims"></label>
+      <label for="inFrom">Who is it from?<input id="inFrom" type="text" maxlength="30" placeholder="Prisha"></label>
+      <label for="inMsg">Your own message (one line per sentence)<textarea id="inMsg" maxlength="400" placeholder="Leave empty to use the default message"></textarea></label>
+      <p>Changes show up the next time the card opens. Screen-record it and send it, or share the page link.</p>
+    </form>
+  </details>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var DEFAULTS = {
+    to: "Nims",
+    from: "Prisha",
+    msg: [
+      "It was my mistake, and I'm really sorry I made you feel sad.",
+      "I hate that I can't just hug you right now, so I'm sending this across every mile between us.",
+      "No more silly jokes from me. You are the best at making jokes, so I'll leave that job to you.",
+      "I will listen better, overthink less, and call you more.",
+      "Loads and loads of puchies for you, always."
+    ]
+  };
+  var PLEAS = [
+    "",
+    "Hmm, that button looks shy.",
+    "It keeps running away from you.",
+    "See how big the Yes is getting?",
+    "I'll send you chocolate. So much chocolate.",
+    "Please, my heart is doing flips.",
+    "Just one little yes, baby.",
+    "Look at my puppy face right now.",
+    "I can do this all night. Can you?",
+    "The No button is getting tired.",
+    "Every no makes me send more puchies.",
+    "I'm not going anywhere.",
+    "Okay, I'm adding even more love."
+  ];
+  var NO_LABELS = ["No", "Are you sure?", "Really sure?", "Think of our next hug", "Pretty please", "I'll call you tonight", "Don't do this", "Okay, last one", "Still no?", "Come on", "I'll wait", "Really, really?"];
+  var EXTRAS = [
+    function () { return { t: "Sorry in five languages", b: "Sorry · माफ़ कर दो · Perdón · Désolé · Entschuldigung" }; },
+    function () { return { t: "A tiny poem for Nims and Prisha", b: "Nims, tum mere dil ka WiFi,\ndoor ho ke bhi signal full.\nPrisha ne galti kar di,\nab maaf kar do, mera mood hai dull." }; },
+    function (n) { return { t: "Imaginary chocolate is on its way", b: "Loading, with extra sprinkles.", bar: Math.min(100, 12 + n * 9) }; },
+    function (n) { return { t: "Puchies sent so far", b: (n * 25) + " and counting. None returned." }; },
+    function () { return { t: "Promise one", b: "A good morning message from me, every single day." }; },
+    function () { return { t: "Puppy eyes, live", b: "Picture me right now with the biggest puppy eyes in the world." }; },
+    function () { return { t: "Promise two", b: "I'll call you before you sleep, even when I'm tired." }; },
+    function () { return { t: "Distance update", b: "The miles are big. My sorry is bigger.", bar: 100 }; },
+    function () { return { t: "Why you're the best", b: "Your jokes alone make every mile worth it." }; },
+    function () { return { t: "Our next hug", b: "The first thing I'll do when we meet is hug you for a full minute." }; },
+    function (n) { return { t: "Sorry tally", b: "Sorry said " + n + " times in a row. Silly jokes made: zero." }; },
+    function () { return { t: "A wish", b: "May every tomorrow start with my good morning and end with my goodnight." }; }
+  ];
+  var COUPONS = [
+    ["One long video call", "Phone down, full attention, as long as you want"],
+    ["A virtual dinner date", "You pick the food, we eat together on call"],
+    ["The \"I was wrong\" pass", "Valid once, for any future argument"],
+    ["Movie night, you choose", "Synced play, even the one I secretly don't like"],
+    ["The first hug when we meet", "Saved up for you, with an extra squeeze"]
+  ];
+
+  var cfg = { to: "", from: "", msg: "" };
+  try {
+    var saved = JSON.parse(localStorage.getItem("sorry-card") || "{}");
+    cfg.to = saved.to || ""; cfg.from = saved.from || ""; cfg.msg = saved.msg || "";
+  } catch (e) {}
+  $("inTo").value = cfg.to; $("inFrom").value = cfg.from; $("inMsg").value = cfg.msg;
+
+  function save() {
+    cfg.to = $("inTo").value.trim(); cfg.from = $("inFrom").value.trim(); cfg.msg = $("inMsg").value.trim();
+    try { localStorage.setItem("sorry-card", JSON.stringify(cfg)); } catch (e) {}
+    applyNames();
+  }
+  function who() { return cfg.to || DEFAULTS.to; }
+  function from() { return cfg.from || DEFAULTS.from; }
+  function applyNames() {
+    $("envTo").textContent = "For " + who();
+    $("cardFor").textContent = "Dear " + who() + ",";
+    $("sig").textContent = "Miles apart, always yours, " + from();
+  }
+  $("form").addEventListener("input", save);
+  $("form").addEventListener("submit", function (e) { e.preventDefault(); });
+  applyNames();
+
+  /* drifting hearts */
+  var bg = $("bg");
+  for (var i = 0; i < 16; i++) {
+    var s = document.createElement("span");
+    var size = 14 + Math.random() * 30;
+    s.style.left = Math.random() * 100 + "%";
+    s.style.fontSize = size + "px";
+    s.style.animationDuration = 9 + Math.random() * 12 + "s";
+    s.style.animationDelay = -Math.random() * 18 + "s";
+    s.innerHTML = '<svg class="h" aria-hidden="true"><use href="#heart"/></svg>';
+    bg.appendChild(s);
+  }
+
+  /* state */
+  var attempts = 0, typing = 0, flying = false;
+  var s1 = $("s1"), s2 = $("s2"), s3 = $("s3");
+
+  function show(el) { [s1, s2, s3].forEach(function (x) { x.hidden = x !== el; }); $("fab").hidden = true; window.scrollTo(0, 0); }
+
+  /* stage 1 -> 2 */
+  $("seal").addEventListener("click", function () {
+    $("env").classList.add("open");
+    setTimeout(function () { show(s2); startCard(); }, reduce ? 50 : 1500);
+  });
+
+  function lines() {
+    var custom = (cfg.msg || "").split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    return custom.length ? custom : DEFAULTS.msg;
+  }
+
+  function startCard() {
+    var box = $("lines"); box.innerHTML = "";
+    $("ask").hidden = true;
+    var list = lines(), token = ++typing;
+    function next(n) {
+      if (token !== typing) return;
+      if (n >= list.length) { $("ask").hidden = false; return; }
+      var p = document.createElement("p"); box.appendChild(p);
+      if (reduce) { p.textContent = list[n]; next(n + 1); return; }
+      p.className = "cur";
+      var c = 0, text = list[n];
+      (function tick() {
+        if (token !== typing) return;
+        c++; p.textContent = text.slice(0, c);
+        if (c < text.length) setTimeout(tick, 26);
+        else { p.className = ""; setTimeout(function () { next(n + 1); }, 420); }
+      })();
+    }
+    next(0);
+  }
+
+  /* the No button that can't be pressed */
+  var yes = $("yes"), no = $("no");
+  function overlap(a, b, m) { return !(a.right + m < b.left || a.left - m > b.right || a.bottom + m < b.top || a.top - m > b.bottom); }
+
+  function cycle(list, n) { return n < list.length ? list[n] : list[1 + (n - 1) % (list.length - 1)]; }
+
+  function addExtra(n) {
+    var item = EXTRAS[(n - 1) % EXTRAS.length](n);
+    var d = document.createElement("div"); d.className = "extra";
+    var t = document.createElement("b"); t.textContent = item.t;
+    var p = document.createElement("p"); p.textContent = item.b;
+    d.appendChild(t); d.appendChild(p);
+    if (item.bar != null) {
+      var bar = document.createElement("div"); bar.className = "bar";
+      var fill = document.createElement("i"); bar.appendChild(fill); d.appendChild(bar);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { fill.style.width = item.bar + "%"; }); });
+    }
+    var ex = $("extras");
+    ex.insertBefore(d, ex.firstChild);
+    while (ex.children.length > 30) ex.removeChild(ex.lastChild);
+  }
+
+  function dodge() {
+    attempts++;
+    yes.style.setProperty("--g", Math.min(attempts, 9));
+    if (attempts >= 3) yes.classList.add("pulse");
+    if (attempts >= 6) yes.classList.add("full");
+    if (attempts >= 4) $("fab").hidden = false;
+    $("plea").textContent = cycle(PLEAS, attempts);
+    $("count").hidden = false;
+    $("count").textContent = "Puchies sent so far: " + attempts * 25;
+    addExtra(attempts);
+    burst(Math.min(8 + attempts * 3, 45));
+    no.textContent = cycle(NO_LABELS, attempts);
+    no.style.fontSize = Math.max(.55, .95 - attempts * .03) + "rem";
+    if (!flying) { flying = true; no.classList.add("fly"); var r0 = no.getBoundingClientRect(); no.style.left = r0.left + "px"; no.style.top = r0.top + "px"; }
+    requestAnimationFrame(function () {
+      var bw = no.offsetWidth, bh = no.offsetHeight, pad = 12;
+      var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+      var yr = yes.getBoundingClientRect(), cur = no.getBoundingClientRect();
+      var best = null;
+      for (var t = 0; t < 40; t++) {
+        var x = pad + Math.random() * Math.max(1, vw - bw - 2 * pad);
+        var y = pad + Math.random() * Math.max(1, vh - bh - 2 * pad);
+        var box = { left: x, top: y, right: x + bw, bottom: y + bh };
+        var far = Math.hypot(x - cur.left, y - cur.top) > 140;
+        if (far && !overlap(box, yr, 10)) { best = box; break; }
+        if (!best) best = box;
+      }
+      no.style.left = best.left + "px"; no.style.top = best.top + "px";
+    });
+  }
+  no.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") dodge(); });
+  no.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") { e.preventDefault(); dodge(); } });
+  no.addEventListener("click", function (e) { e.preventDefault(); dodge(); });
+  no.addEventListener("focus", function () { dodge(); });
+  $("fab").addEventListener("click", function () { yes.click(); });
+
+  /* yes */
+  yes.addEventListener("click", function () {
+    show(s3);
+    $("thx").textContent = "You forgave me!";
+    $("thxSub").textContent = "Thank you, " + who() + ". Sending you loads and loads of puchies across the miles.";
+    $("tease").textContent = attempts > 0
+      ? "You tried to say no " + attempts + (attempts === 1 ? " time" : " times") + ". Cute."
+      : "Not even one little no. I love you.";
+    buildCoupons();
+    burst();
+  });
+
+  function buildCoupons() {
+    var ul = $("coupons"); ul.innerHTML = "";
+    COUPONS.forEach(function (c) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "coupon"; b.setAttribute("aria-pressed", "false");
+      b.innerHTML = "<span><b></b><small></small></span><span class='stamp'>Redeem</span>";
+      b.querySelector("b").textContent = c[0];
+      b.querySelector("small").textContent = c[1];
+      b.addEventListener("click", function () {
+        var on = b.getAttribute("aria-pressed") !== "true";
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        b.querySelector(".stamp").textContent = on ? "Redeemed" : "Redeem";
+        if (on) burst(10);
+      });
+      li.appendChild(b); ul.appendChild(li);
+    });
+  }
+
+  $("replay").addEventListener("click", function () {
+    attempts = 0; flying = false;
+    no.hidden = false; no.className = "btn no"; no.removeAttribute("style"); no.textContent = "No";
+    yes.style.setProperty("--g", 0); yes.classList.remove("full"); yes.classList.remove("pulse");
+    $("plea").textContent = "";
+    $("count").hidden = true; $("extras").innerHTML = "";
+    $("env").classList.remove("open");
+    show(s1);
+  });
+
+  /* heart confetti */
+  var cv = $("fx"), ctx = cv.getContext("2d"), parts = [], raf = 0;
+  var heartPath = new Path2D("M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z");
+  function fit() {
+    var d = window.devicePixelRatio || 1;
+    cv.width = innerWidth * d; cv.height = innerHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  window.addEventListener("resize", fit); fit();
+
+  function burst(n) {
+    if (reduce) return;
+    var cs = getComputedStyle(document.documentElement);
+    var cols = ["--rose", "--rose-deep", "--blush", "--gold"].map(function (k) { return cs.getPropertyValue(k).trim(); });
+    var count = n || 150;
+    for (var i = 0; i < count; i++) {
+      var side = Math.random();
+      var fromX = n ? innerWidth / 2 : (side < .33 ? 0 : side < .66 ? innerWidth : innerWidth / 2);
+      var fromY = n ? innerHeight * .5 : innerHeight * (side < .66 ? .7 : .45);
+      var ang = (side < .33 ? -.9 : side < .66 ? -2.2 : -1.57) + (Math.random() - .5) * 1.2;
+      var sp = (n ? 5 : 9) + Math.random() * (n ? 5 : 10);
+      parts.push({ x: fromX, y: fromY, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, s: 10 + Math.random() * 20, r: Math.random() * 6, vr: (Math.random() - .5) * .2, c: cols[i % cols.length], heart: Math.random() < .75, life: 0 });
+    }
+    if (!raf) raf = requestAnimationFrame(step);
+  }
+  function step() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(function (p) { return p.y < innerHeight + 40 && p.life < 260; });
+    parts.forEach(function (p) {
+      p.life++; p.vy += .22; p.vx *= .992; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+      ctx.globalAlpha = Math.max(0, Math.min(1, (260 - p.life) / 60));
+      if (p.heart) { var k = p.s / 24; ctx.scale(k, k); ctx.translate(-12, -12); ctx.fill(heartPath); }
+      else { ctx.beginPath(); ctx.arc(0, 0, p.s / 5, 0, 6.3); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(step) : 0;
+    if (!parts.length) ctx.clearRect(0, 0, innerWidth, innerHeight);
+  }
+})();
+</script>
+
+</body></html>
